@@ -7,27 +7,24 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecuta la migración
      */
     public function up(): void
     {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // id (int, PK)
 
-            $table->string('nombre');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('emocion_actual')->nullable(); 
-            $table->integer('nivel_animo')->nullable(); 
-            
-            $table->rememberToken();
+            $table->string('nombre', 255);
+            $table->string('apellido', 255);
+            $table->string('correo', 255)->unique();
+            $table->string('contrasena', 255);
 
-            $table->timestamps();
+            $table->timestamps(); // created_at y updated_at
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Revierte la migración
      */
     public function down(): void
     {
