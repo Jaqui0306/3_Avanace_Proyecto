@@ -9,13 +9,17 @@ class Usuario extends Model
 {
     use HasFactory;
 
-    protected $table = 'usuarios';           // Nombre de la tabla en la BD
+    protected $table = 'usuarios';
     protected $primaryKey = 'id';
 
     protected $fillable = [
         'nombre',
         'apellido',
         'correo',
+        'contrasena',
+    ];
+
+    protected $hidden = [
         'contrasena',
     ];
 
@@ -27,6 +31,6 @@ class Usuario extends Model
 
     public function frasesFavoritas()
     {
-        return $this->hasMany(FraseFavorita::class, 'id_usuario');
+        return $this->hasMany(FraseFavorita::class, 'usuario_id');
     }
 }
