@@ -25,7 +25,7 @@
                class="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
 
         <input type="text" name="apellido" placeholder="Apellido"
-               class="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
+               class="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
 
         <input type="email" name="correo" placeholder="Correo"
                class="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
@@ -33,8 +33,12 @@
         <input type="password" name="contrasena" placeholder="Contraseña"
                class="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
 
+        <!-- Campo de confirmación de contraseña (OBLIGATORIO para la regla 'confirmed') -->
+        <input type="password" name="contrasena_confirmation" placeholder="Confirmar Contraseña"
+               class="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required>
+
         <button type="submit"
-                class="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+                class="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition font-medium">
             Registrarse
         </button>
     </form>
