@@ -31,7 +31,7 @@
 
     <p class="text-sm text-center mt-4">
         ¿No tienes cuenta?
-        <a href="/register" class="text-purple-600 font-semibold">Regístrate</a>
+        <a href="/register" class="text-green-600 font-semibold">Regístrate</a>
     </p>
 </div>
 
