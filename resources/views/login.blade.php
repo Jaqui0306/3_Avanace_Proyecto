@@ -91,8 +91,18 @@
             }
         }
     </script>
+    <style>
+        .bg-overlay::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(109,40,217,0.15) 100%);
+            backdrop-filter: blur(2px);
+            z-index: 0;
+        }
+    </style>
 </head>
-<body class="font-sans min-h-screen flex items-center justify-center p-6 overflow-hidden relative" style="background-image: url('{{ asset('imagenes/fondo_inspirita.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; background-color: #fff;">
+<body class="font-sans min-h-screen flex items-center justify-center p-6 overflow-hidden relative bg-overlay" style="background-image: url('{{ asset('imagenes/fondo_inspirita.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
     {{-- Tarjetita --}}
     <div class="animate-cardUp relative z-10 flex w-full max-w-[980px] min-h-[620px] rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(109,40,217,0.15),0_0_0_1.5px_rgba(109,40,217,0.08),0_2px_8px_rgba(0,0,0,0.06)] bg-white">
