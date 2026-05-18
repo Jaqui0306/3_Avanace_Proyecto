@@ -3,6 +3,11 @@
 use App\Http\Controllers\EmocionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\FraseFavoritaController;
+
+Route::get('/frases-favoritas', [FraseFavoritaController::class, 'index']);
+Route::post('/frases-favoritas', [FraseFavoritaController::class, 'store']);
+Route::delete('/frases-favoritas/{id}', [FraseFavoritaController::class, 'destroy']);
 
 Route::redirect('/', '/login');
 Route::get('/login', [AuthController::class, 'showLogin']);
