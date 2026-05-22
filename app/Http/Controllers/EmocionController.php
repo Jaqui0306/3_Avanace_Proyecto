@@ -28,7 +28,9 @@ class EmocionController extends Controller
         ["texto" => "Tu visión se volverá clara solo cuando puedas mirar en tu propio corazón.", "autor" => "Carl Jung"],
         ["texto" => "Confía en tus instintos, pero no te dejes guiar por el miedo.", "autor" => "The Clone Wars"],
         ["texto" => "Afrontar tus miedos es la única forma de superarlos.", "autor" => "The Clone Wars"],
-        ["texto" => "Acepta lo que es, deja ir lo que fue y ten fe en lo que será.", "autor" => "Sonia Ricotti"]
+        ["texto" => "Acepta lo que es, deja ir lo que fue y ten fe en lo que será.", "autor" => "Sonia Ricotti"],
+        ["texto" => "Hakuna Matata.", "autor" => "Timon y Pumba"]
+
     ];
     
     $fraseSeleccionada = $frases[array_rand($frases)];
