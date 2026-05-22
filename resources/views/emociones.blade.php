@@ -165,12 +165,12 @@
                         @csrf
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                             @foreach([
-                                'Feliz' => ['emoji' => '🌻', 'bg' => 'bg-amber-300'],
-                                'Triste' => ['emoji' => '😢', 'bg' => 'bg-blue-300'],
-                                'Enojado' => ['emoji' => '🔥', 'bg' => 'bg-red-400'],
-                                'Calmado' => ['emoji' => '🍃', 'bg' => 'bg-teal-300'],
+                                'Feliz' => ['emoji' => '🙂', 'bg' => 'bg-amber-300'],
+                                'Triste' => ['emoji' => '😭', 'bg' => 'bg-blue-300'],
+                                'Enojado' => ['emoji' => '😡', 'bg' => 'bg-red-400'],
+                                'Calmado' => ['emoji' => '😌', 'bg' => 'bg-teal-300'],
                                 'Ansioso' => ['emoji' => '😟', 'bg' => 'bg-purple-300'],
-                                'Amado' => ['emoji' => '❤️', 'bg' => 'bg-pink-300'],
+                                'Amado' => ['emoji' => '🥰', 'bg' => 'bg-pink-300'],
                             ] as $val => $data)
                             <label class="cursor-pointer group">
                                 <input type="radio" name="emocion" value="{{ $val }}" class="hidden peer mood-radio" data-bg="{{ $data['bg'] }}" required>
@@ -225,12 +225,12 @@
                                 <div class="flex items-center gap-4">
                                     <span class="text-3xl">
                                         @switch($e->emocion)
-                                            @case('Feliz') 🌻 @break
-                                            @case('Triste') 😢 @break
-                                            @case('Enojado') 🔥 @break
-                                            @case('Calmado') 🍃 @break
+                                            @case('Feliz')  🙂 @break
+                                            @case('Triste') 😭 @break
+                                            @case('Enojado') 😡 @break
+                                            @case('Calmado') 😌 @break
                                             @case('Ansioso') 😟 @break
-                                            @case('Amado') ❤️ @break
+                                            @case('Amado') 🥰 @break
                                         @endswitch
                                     </span>
                                     <div>
@@ -360,7 +360,7 @@
                     <h3 class="font-black text-slate-800 text-xl mb-3 leading-tight">{{ $ex['title'] }}</h3>
                     <p class="text-sm text-slate-500 mb-8 flex-grow leading-relaxed">{{ $ex['desc'] }}</p>
                     <div class="flex items-center gap-2 text-indigo-600 font-black text-xs uppercase tracking-widest group-hover:translate-x-2 transition-transform">
-                        Iniciar Sesión <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        Iniciar <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </div>
                 </div>
             </div>
@@ -483,7 +483,7 @@
             </div>
 
             <button onclick="closeExercise()" class="w-full mt-8 bg-slate-900 text-white font-black py-5 rounded-2xl hover:bg-indigo-600 transition-all flex items-center justify-center gap-3">
-                Entendido, comenzar <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                Entendido <i data-lucide="arrow-right" class="w-5 h-5"></i>
             </button>
         </div>
     </div>
