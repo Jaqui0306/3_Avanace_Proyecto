@@ -503,6 +503,13 @@
         <i data-lucide="brain-circuit" class="w-5 h-5"></i>
         <span class="text-[10px] font-black uppercase hidden md:inline">Ejercicios</span>
     </button>
+    <a href="/frases-favoritas"
+       class="flex items-center gap-2 px-6 py-3 rounded-full text-slate-400 transition-all hover:bg-pink-500 hover:text-white">
+        <i data-lucide="heart" class="w-5 h-5"></i>
+        <span class="text-[10px] font-black uppercase hidden md:inline">
+            Favoritas
+        </span>
+    </a>
 </div>
 
 <!-- Formulario de Logout -->
@@ -770,17 +777,59 @@
         });
     }
 
-    // Favorito silencioso (sin notificación)
-    function marcarFavorito() {
+    // ==================== GUARDAR FRASES FAVORITAS ====================
+let fraseActual = {
+    texto: @json($fraseSeleccionada['texto']),
+    autor: @json($fraseSeleccionada['autor'])
+};
+
+// Guardar favorito en la base de datos
+function marcarFavorito() {
+
+    fetch('/frases-favoritas', {
+        method: 'POST',
+
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        },
+
+        body: JSON.stringify({
+            texto: fraseActual.texto,
+            autor: fraseActual.autor
+        })
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
         const btn = document.getElementById('btn-favorito');
-        const icon = btn.querySelector('i');
-        btn.classList.toggle('text-pink-500');
-        btn.classList.toggle('text-slate-300');
-        btn.classList.toggle('bg-pink-50');
-        // Animación sutil
-        icon.style.transform = 'scale(1.3)';
-        setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
-    }
+
+        btn.classList.remove('text-slate-300');
+        btn.classList.add('text-pink-500', 'bg-pink-50');
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Guardado ❤️',
+            text: 'La frase fue agregada a favoritos',
+            timer: 1500,
+            showConfirmButton: false
+        });
+    })
+
+    .catch(error => {
+
+        console.log(error);
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo guardar la frase'
+        });
+    });
+}
 </script>
 </body>
 </html>

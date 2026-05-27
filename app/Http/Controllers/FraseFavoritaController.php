@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class FraseFavoritaController extends Controller
 {
     /**
-     * Mostrar frases favoritas del usuario
+     * Mostrar frases favoritas
      */
     public function index()
     {
@@ -25,7 +25,7 @@ class FraseFavoritaController extends Controller
         }
 
         $frasesFavoritas = FraseFavorita::where('usuario_id', $usuario->id)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('fecha_guardada', 'desc')
             ->get();
 
         return view('frases-favoritas', compact('usuario', 'frasesFavoritas'));
@@ -36,23 +36,43 @@ class FraseFavoritaController extends Controller
      */
     public function store(Request $request)
     {
-        if (!session()->has('usuario_id')) {
-            return redirect('/login');
+        try {
+
+            // Verificar sesión
+            if (!session()->has('usuario_id')) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no autenticado'
+                ], 401);
+            }
+
+            // Validar datos
+            $request->validate([
+                'texto' => 'required|string'
+            ]);
+
+            // Guardar frase
+            FraseFavorita::create([
+                'usuario_id' => session('usuario_id'),
+                'frase' => $request->texto,
+                'fecha_guardada' => now(),
+            ]);
+
+            // Respuesta JSON correcta para fetch()
+            return response()->json([
+                'success' => true,
+                'message' => 'Frase guardada correctamente'
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al guardar la frase',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        $request->validate([
-            'texto' => 'required|string',
-            'autor' => 'nullable|string|max:255',
-        ]);
-
-        FraseFavorita::create([
-            'usuario_id' => session('usuario_id'),
-            'texto' => $request->texto,
-            'autor' => $request->autor,
-        ]);
-
-        return redirect()->back()
-            ->with('success', 'Frase guardada en favoritos');
     }
 
     /**
