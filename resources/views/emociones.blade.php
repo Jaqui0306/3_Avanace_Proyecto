@@ -110,7 +110,10 @@
                 <span class="text-xs font-black text-slate-400 uppercase tracking-widest">Miembro</span>
                 <span class="text-sm font-bold text-slate-900">{{ $primerNombre }}</span>
             </div>
-            <div class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center font-bold text-white shadow-md uppercase border-2 border-white">
+            
+            <!-- Avatar clicable -->
+            <div onclick="showSection('config')" 
+                 class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center font-bold text-white shadow-md uppercase border-2 border-white cursor-pointer hover:ring-2 hover:ring-indigo-400 transition-all">
                 {{ substr($primerNombre, 0, 1) }}
             </div>
             
@@ -333,7 +336,7 @@
                 <h2 class="text-4xl font-black text-slate-900 tracking-tight">Técnicas de Bienestar</h2>
             </div>
             <div class="bg-white px-4 py-2 rounded-full border border-slate-100 text-[10px] font-black text-slate-400 uppercase tracking-widest shadow-sm">
-                6 ejercicios disponibles
+                10 ejercicios disponibles
             </div>
         </header>
         
@@ -344,7 +347,11 @@
                 'grounding' => ['icon' => 'anchor', 'color' => 'amber', 'title' => 'Método 5-4-3-2-1', 'time' => '3 min', 'dif' => 'Baja', 'desc' => 'Anclaje sensorial para disipar crisis de pánico o estrés agudo.'],
                 'escritura' => ['icon' => 'pen-tool', 'color' => 'blue', 'title' => 'Vaciado Mental', 'time' => '10 min', 'dif' => 'Alta', 'desc' => 'Transferencia de pensamientos intrusivos al papel para ganar claridad.'],
                 'stop' => ['icon' => 'octagon', 'color' => 'red', 'title' => 'Técnica STOP', 'time' => '1 min', 'dif' => 'Media', 'desc' => 'Interrupción de patrones impulsivos antes de una reacción emocional.'],
-                'gratitud' => ['icon' => 'heart-handshake', 'color' => 'pink', 'title' => 'Escaneo de Gratitud', 'time' => '4 min', 'dif' => 'Baja', 'desc' => 'Reentrenamiento cognitivo para identificar sesgos positivos.']
+                'gratitud' => ['icon' => 'heart-handshake', 'color' => 'pink', 'title' => 'Escaneo de Gratitud', 'time' => '4 min', 'dif' => 'Baja', 'desc' => 'Reentrenamiento cognitivo para identificar sesgos positivos.'],
+                'respiracionCaja' => ['icon' => 'square', 'color' => 'cyan', 'title' => 'Respiración en Caja', 'time' => '6 min', 'dif' => 'Baja', 'desc' => 'Técnica usada por Navy SEALs para controlar estrés.'],
+                'bodyScan' => ['icon' => 'scan', 'color' => 'violet', 'title' => 'Escaneo Corporal', 'time' => '8 min', 'dif' => 'Media', 'desc' => 'Mindfulness profundo para liberar tensión.'],
+                'afirmaciones' => ['icon' => 'sparkles', 'color' => 'pink', 'title' => 'Afirmaciones Poderosas', 'time' => '7 min', 'dif' => 'Baja', 'desc' => 'Reprogramación mental positiva.'],
+                'visualizacion' => ['icon' => 'eye', 'color' => 'amber', 'title' => 'Visualización Creativa', 'time' => '10 min', 'dif' => 'Media', 'desc' => 'Técnica usada por atletas de élite.']
             ] as $key => $ex)
             <div class="exercise-card bg-white p-1 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl group cursor-pointer" onclick="openExercise('{{ $key }}')">
                 <div class="bg-slate-50/50 rounded-[2.2rem] p-8 h-full flex flex-col">
@@ -368,7 +375,7 @@
         </div>
     </div>
 
-    <!-- SECCIÓN CONFIGURACIÓN (SIN CORREO) -->
+    <!-- SECCIÓN CONFIGURACIÓN -->
     <div id="section-config" class="section-content">
         <header class="mb-10">
             <span class="text-indigo-600 font-black text-xs uppercase tracking-[0.2em] mb-2 block">Preferencias</span>
@@ -431,10 +438,9 @@
     </div>
 </main>
 
-<!-- ==================== MODAL EJERCICIOS PROFESIONAL ==================== -->
+<!-- ==================== MODAL EJERCICIOS MEJORADO ==================== -->
 <div id="exercise-modal" class="exercise-modal" onclick="if(event.target===this) closeExercise()">
     <div class="exercise-modal-content">
-        <!-- Header con gradiente dinámico -->
         <div id="modal-header" class="relative p-10 rounded-t-[3rem] text-white overflow-hidden">
             <div class="absolute inset-0 opacity-20">
                 <i id="modal-bg-icon" data-lucide="wind" class="absolute -right-8 -bottom-8 w-64 h-64"></i>
@@ -463,15 +469,29 @@
             </div>
         </div>
 
-        <!-- Descripción -->
         <div class="p-10 pb-6">
             <p id="modal-desc" class="text-slate-500 font-medium leading-relaxed mb-8"></p>
 
-            <!-- Pasos -->
+            <!-- Cronómetro -->
+            <div class="bg-slate-50 border border-slate-100 rounded-3xl p-6 mb-8 text-center">
+                <p class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Cronómetro</p>
+                <div id="timer-display" class="text-5xl font-black text-slate-800 tabular-nums">05:00</div>
+                <div class="flex justify-center gap-3 mt-4">
+                    <button onclick="startTimer()" id="btn-start" class="px-6 py-2 bg-indigo-600 text-white rounded-2xl font-bold text-sm hover:bg-indigo-700 transition">
+                        Iniciar
+                    </button>
+                    <button onclick="pauseTimer()" id="btn-pause" class="px-6 py-2 bg-slate-200 rounded-2xl font-bold text-sm hover:bg-slate-300 transition hidden">
+                        Pausar
+                    </button>
+                    <button onclick="resetTimer()" class="px-6 py-2 bg-slate-200 rounded-2xl font-bold text-sm hover:bg-slate-300 transition">
+                        Reiniciar
+                    </button>
+                </div>
+            </div>
+
             <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6">Instrucciones</h4>
             <div id="modal-steps" class="space-y-4"></div>
 
-            <!-- Tip -->
             <div id="modal-tip" class="mt-8 bg-indigo-50 border-l-4 border-indigo-500 p-6 rounded-r-2xl">
                 <div class="flex gap-3">
                     <i data-lucide="lightbulb" class="w-5 h-5 text-indigo-600 flex-shrink-0 mt-1"></i>
@@ -483,14 +503,14 @@
             </div>
 
             <button onclick="closeExercise()" class="w-full mt-8 bg-slate-900 text-white font-black py-5 rounded-2xl hover:bg-indigo-600 transition-all flex items-center justify-center gap-3">
-                Entendido <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                Terminar Sesión <i data-lucide="check-circle" class="w-5 h-5"></i>
             </button>
         </div>
     </div>
 </div>
 
 <!-- NAVBAR FLOTANTE -->
-<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-xl p-2 rounded-full shadow-2xl border border-white/10 flex items-center gap-1">
+<div id="floating-navbar" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 backdrop-blur-xl p-2 rounded-full shadow-2xl border border-white/10 flex items-center gap-1 transition-all">
     <button onclick="showSection('home')" class="nav-btn active flex items-center gap-2 px-6 py-3 rounded-full text-white transition-all bg-white/10">
         <i data-lucide="home" class="w-5 h-5"></i>
         <span class="text-[10px] font-black uppercase hidden md:inline">Inicio</span>
@@ -503,12 +523,9 @@
         <i data-lucide="brain-circuit" class="w-5 h-5"></i>
         <span class="text-[10px] font-black uppercase hidden md:inline">Ejercicios</span>
     </button>
-    <a href="/frases-favoritas"
-       class="flex items-center gap-2 px-6 py-3 rounded-full text-slate-400 transition-all hover:bg-pink-500 hover:text-white">
+    <a href="/frases-favoritas" class="flex items-center gap-2 px-6 py-3 rounded-full text-slate-400 transition-all hover:bg-pink-500 hover:text-white">
         <i data-lucide="heart" class="w-5 h-5"></i>
-        <span class="text-[10px] font-black uppercase hidden md:inline">
-            Favoritas
-        </span>
+        <span class="text-[10px] font-black uppercase hidden md:inline">Favoritas</span>
     </a>
 </div>
 
@@ -529,7 +546,6 @@
         document.getElementById('phrase-author').textContent = nueva.autor || '';
     }
 
-    // Fondo dinámico
     document.querySelectorAll('.mood-radio').forEach(radio => {
         radio.addEventListener('change', (e) => {
             const body = document.getElementById('main-body');
@@ -575,24 +591,19 @@
         });
     }
 
-    // ==================== GRÁFICA CON COLORES POR EMOCIÓN ====================
-    const ctx = document.getElementById('moodChart').getContext('2d');
-
-    // Diccionario de colores por emoción
     const coloresEmocion = {
-        'Feliz':   '#fbbf24',   // amarillo girasol
-        'Triste':  '#60a5fa',   // azul
-        'Enojado': '#f87171',   // rojo
-        'Calmado': '#2dd4bf',   // turquesa
-        'Ansioso': '#a78bfa',   // morado
-        'Amado':   '#f472b6'    // rosa
+        'Feliz':   '#fbbf24',
+        'Triste':  '#60a5fa',
+        'Enojado': '#f87171',
+        'Calmado': '#2dd4bf',
+        'Ansioso': '#a78bfa',
+        'Amado':   '#f472b6'
     };
 
-    // Obtenemos los labels y les asignamos el color correcto según la emoción
     const chartLabels = {!! json_encode($labels) !!};
     const chartColors = chartLabels.map(label => coloresEmocion[label] || '#64748b');
 
-    new Chart(ctx, {
+    new Chart(document.getElementById('moodChart').getContext('2d'), {
         type: 'bar',
         data: {
             labels: chartLabels,
@@ -621,115 +632,236 @@
         document.getElementById('section-' + id).classList.add('active');
     }
 
-    // ==================== DATOS COMPLETOS DE EJERCICIOS ====================
-    const ejerciciosData = {
-        respiracion: {
-            title: 'Respiración 4-7-8',
-            icon: 'wind',
-            time: '5 min',
-            dif: 'Baja',
-            gradient: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)',
-            desc: 'Técnica milenaria adaptada por el Dr. Andrew Weil. Activa el sistema parasimpático y reduce la ansiedad en minutos.',
-            steps: [
-                'Siéntate con la espalda recta y la punta de la lengua tocando el paladar detrás de los dientes superiores.',
-                'Exhala completamente por la boca produciendo un sonido suave de "whoosh".',
-                'Cierra la boca e inhala por la nariz contando mentalmente hasta 4.',
-                'Mantén la respiración contando hasta 7.',
-                'Exhala completamente por la boca contando hasta 8 con el sonido "whoosh".',
-                'Repite el ciclo 3 veces más (4 ciclos en total) para completar la sesión.'
-            ],
-            tip: 'Practica esta técnica al menos 2 veces al día. Los efectos se potencian con la consistencia después de 6-8 semanas.'
-        },
-        pomodoro: {
-            title: 'Focus Express',
-            icon: 'timer',
-            time: '25 min',
-            dif: 'Media',
-            gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
-            desc: 'Método Pomodoro desarrollado por Francesco Cirillo. Divide el trabajo en intervalos concentrados para maximizar productividad.',
-            steps: [
-                'Elige una tarea específica que requiera tu atención total.',
-                'Configura un temporizador a 25 minutos exactos.',
-                'Trabaja en la tarea sin distracciones hasta que suene el timer.',
-                'Haz una pausa corta de 5 minutos para estirarte o tomar agua.',
-                'Repite este ciclo 4 veces consecutivas.',
-                'Después del 4º pomodoro, toma un descanso largo de 15-30 minutos.'
-            ],
-            tip: 'Silencia notificaciones durante los 25 minutos. Tu cerebro tarda hasta 23 minutos en recuperar el foco tras una interrupción.'
-        },
-        grounding: {
-            title: 'Método 5-4-3-2-1',
-            icon: 'anchor',
-            time: '3 min',
-            dif: 'Baja',
-            gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-            desc: 'Técnica de anclaje sensorial usada en terapia cognitivo-conductual para crisis de ansiedad y ataques de pánico.',
-            steps: [
-                'Identifica 5 cosas que puedes VER a tu alrededor y descríbelas mentalmente con detalle.',
-                'Identifica 4 cosas que puedes TOCAR o sentir (textura de la ropa, temperatura del aire...).',
-                'Identifica 3 sonidos que puedes OÍR en este momento, por sutiles que sean.',
-                'Identifica 2 aromas que puedes OLER, o recuerda 2 olores que te gusten.',
-                'Identifica 1 sabor que puedes notar en tu boca o evoca uno agradable.',
-                'Respira profundo y nota cómo tu mente ha regresado al momento presente.'
-            ],
-            tip: 'Esta técnica es más efectiva cuando verbalizas en voz alta lo que observas. Te reconecta con la realidad inmediata.'
-        },
-        escritura: {
-            title: 'Vaciado Mental',
-            icon: 'pen-tool',
-            time: '10 min',
-            dif: 'Alta',
-            gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-            desc: 'Journaling terapéutico respaldado por estudios de la Universidad de Texas. Reduce pensamientos intrusivos y clarifica emociones.',
-            steps: [
-                'Busca un espacio tranquilo con papel y bolígrafo (evita pantallas).',
-                'Configura un temporizador de 10 minutos sin pausas.',
-                'Escribe sin parar todo lo que pasa por tu mente, sin editar ni corregir.',
-                'No te preocupes por la ortografía, coherencia o juicio de tus ideas.',
-                'Si te bloqueas, escribe "no sé qué escribir" hasta que fluya otro pensamiento.',
-                'Al terminar, relee lo escrito una vez y guárdalo o deséchalo según prefieras.'
-            ],
-            tip: 'Hazlo a primera hora de la mañana (Morning Pages) para limpiar el subconsciente antes de empezar el día.'
-        },
-        stop: {
-            title: 'Técnica STOP',
-            icon: 'octagon',
-            time: '1 min',
-            dif: 'Media',
-            gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-            desc: 'Intervención rápida del mindfulness para interrumpir patrones reactivos antes de que dominen tu comportamiento.',
-            steps: [
-                'S — STOP (Detente): Frena físicamente cualquier acción que estés realizando.',
-                'T — TAKE A BREATH (Respira): Haz una respiración profunda y consciente.',
-                'O — OBSERVE (Observa): Nota qué sientes en el cuerpo y qué pensamientos tienes.',
-                'P — PROCEED (Procede): Continúa de manera consciente, eligiendo tu respuesta.',
-                'Practica esta técnica al menos 3 veces al día en situaciones neutras.',
-                'Con el tiempo se volverá automática ante estímulos desafiantes.'
-            ],
-            tip: 'Usa esta técnica justo antes de responder un mensaje molesto o cuando sientas que vas a reaccionar impulsivamente.'
-        },
-        gratitud: {
-            title: 'Escaneo de Gratitud',
-            icon: 'heart-handshake',
-            time: '4 min',
-            dif: 'Baja',
-            gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
-            desc: 'Ejercicio basado en psicología positiva de Martin Seligman. Reentrena el cerebro para detectar lo positivo automáticamente.',
-            steps: [
-                'Siéntate cómodo y cierra los ojos por unos segundos.',
-                'Piensa en 3 personas que hayan aportado algo bueno a tu día o semana.',
-                'Identifica 3 cosas pequeñas del día de hoy que disfrutaste (una comida, un sonido...).',
-                'Reconoce 1 cualidad propia por la que te sientas agradecido contigo mismo.',
-                'Imagina enviar un mensaje mental de gratitud a cada una de esas personas y momentos.',
-                'Abre los ojos y escribe brevemente una de esas experiencias para anclarla.'
-            ],
-            tip: 'Hazlo antes de dormir durante 21 días consecutivos. Reconfigura tu cerebro hacia un sesgo positivo de forma duradera.'
-        }
-    };
+   // ==================== DATOS COMPLETOS DE EJERCICIOS ====================
+const ejerciciosData = {
+    respiracion: {
+        title: 'Respiración 4-7-8',
+        icon: 'wind',
+        time: '5 min',
+        duration: 300,
+        dif: 'Baja',
+        gradient: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)',
+        desc: 'Técnica milenaria adaptada por el Dr. Andrew Weil. Activa el sistema parasimpático y reduce la ansiedad en minutos.',
+        steps: [
+            'Siéntate con la espalda recta y la punta de la lengua tocando el paladar detrás de los dientes superiores.',
+            'Exhala completamente por la boca produciendo un sonido suave de "whoosh".',
+            'Cierra la boca e inhala por la nariz contando mentalmente hasta 4.',
+            'Mantén la respiración contando hasta 7.',
+            'Exhala completamente por la boca contando hasta 8 con el sonido "whoosh".',
+            'Repite el ciclo 3 veces más (4 ciclos en total) para completar la sesión.'
+        ],
+        tip: 'Practica esta técnica al menos 2 veces al día. Los efectos se potencian con la consistencia después de 6-8 semanas.'
+    },
+    pomodoro: {
+        title: 'Focus Express',
+        icon: 'timer',
+        time: '25 min',
+        duration: 1500,
+        dif: 'Media',
+        gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+        desc: 'Método Pomodoro desarrollado por Francesco Cirillo. Divide el trabajo en intervalos concentrados para maximizar productividad.',
+        steps: [
+            'Elige una tarea específica que requiera tu atención total.',
+            'Configura un temporizador a 25 minutos exactos.',
+            'Trabaja en la tarea sin distracciones hasta que suene el timer.',
+            'Haz una pausa corta de 5 minutos para estirarte o tomar agua.',
+            'Repite este ciclo 4 veces consecutivas.',
+            'Después del 4º pomodoro, toma un descanso largo de 15-30 minutos.'
+        ],
+        tip: 'Silencia notificaciones durante los 25 minutos. Tu cerebro tarda hasta 23 minutos en recuperar el foco tras una interrupción.'
+    },
+    grounding: {
+        title: 'Método 5-4-3-2-1',
+        icon: 'anchor',
+        time: '3 min',
+        duration: 180,
+        dif: 'Baja',
+        gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+        desc: 'Técnica de anclaje sensorial usada en terapia cognitivo-conductual para crisis de ansiedad y ataques de pánico.',
+        steps: [
+            'Identifica 5 cosas que puedes VER a tu alrededor y descríbelas mentalmente con detalle.',
+            'Identifica 4 cosas que puedes TOCAR o sentir (textura de la ropa, temperatura del aire...).',
+            'Identifica 3 sonidos que puedes OÍR en este momento, por sutiles que sean.',
+            'Identifica 2 aromas que puedes OLER, o recuerda 2 olores que te gusten.',
+            'Identifica 1 sabor que puedes notar en tu boca o evoca uno agradable.',
+            'Respira profundo y nota cómo tu mente ha regresado al momento presente.'
+        ],
+        tip: 'Esta técnica es más efectiva cuando verbalizas en voz alta lo que observas.'
+    },
+    escritura: {
+        title: 'Vaciado Mental',
+        icon: 'pen-tool',
+        time: '10 min',
+        duration: 600,
+        dif: 'Alta',
+        gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+        desc: 'Journaling terapéutico respaldado por estudios de la Universidad de Texas.',
+        steps: [
+            'Busca un espacio tranquilo con papel y bolígrafo (evita pantallas).',
+            'Configura un temporizador de 10 minutos sin pausas.',
+            'Escribe sin parar todo lo que pasa por tu mente, sin editar ni corregir.',
+            'No te preocupes por la ortografía, coherencia o juicio de tus ideas.',
+            'Si te bloqueas, escribe "no sé qué escribir" hasta que fluya otro pensamiento.',
+            'Al terminar, relee lo escrito una vez y guárdalo o deséchalo según prefieras.'
+        ],
+        tip: 'Hazlo a primera hora de la mañana (Morning Pages).'
+    },
+    stop: {
+        title: 'Técnica STOP',
+        icon: 'octagon',
+        time: '1 min',
+        duration: 60,
+        dif: 'Media',
+        gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+        desc: 'Intervención rápida del mindfulness para interrumpir patrones reactivos.',
+        steps: [
+            'S — STOP (Detente): Frena físicamente cualquier acción.',
+            'T — TAKE A BREATH (Respira): Haz una respiración profunda.',
+            'O — OBSERVE (Observa): Nota qué sientes en el cuerpo.',
+            'P — PROCEED (Procede): Continúa de manera consciente.',
+            'Practica esta técnica al menos 3 veces al día.'
+        ],
+        tip: 'Úsala antes de responder mensajes o en momentos de impulso.'
+    },
+    gratitud: {
+        title: 'Escaneo de Gratitud',
+        icon: 'heart-handshake',
+        time: '4 min',
+        duration: 240,
+        dif: 'Baja',
+        gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+        desc: 'Ejercicio basado en psicología positiva de Martin Seligman.',
+        steps: [
+            'Siéntate cómodo y cierra los ojos.',
+            'Piensa en 3 personas que hayan aportado algo bueno.',
+            'Identifica 3 cosas pequeñas del día que disfrutaste.',
+            'Reconoce 1 cualidad propia por la que te sientas agradecido.',
+            'Imagina enviar gratitud mentalmente.',
+            'Abre los ojos y escribe una experiencia.'
+        ],
+        tip: 'Hazlo antes de dormir durante 21 días.'
+    },
+    respiracionCaja: {
+        title: 'Respiración en Caja (4-4-4-4)',
+        icon: 'square',
+        time: '6 min',
+        duration: 360,
+        dif: 'Baja',
+        gradient: 'linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%)',
+        desc: 'Técnica usada por Navy SEALs para controlar el estrés y mejorar el foco.',
+        steps: [
+            'Siéntate o acuéstate con la espalda recta.',
+            'Inhala por la nariz contando hasta 4.',
+            'Retén el aire contando hasta 4.',
+            'Exhala por la boca contando hasta 4.',
+            'Mantén los pulmones vacíos contando hasta 4.',
+            'Repite el ciclo durante 6 minutos.'
+        ],
+        tip: 'Ideal antes de una presentación o cuando sientas ansiedad alta.'
+    },
+    bodyScan: {
+        title: 'Escaneo Corporal',
+        icon: 'scan',
+        time: '8 min',
+        duration: 480,
+        dif: 'Media',
+        gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+        desc: 'Mindfulness profundo para liberar tensión física y mental.',
+        steps: [
+            'Acuéstate o siéntate cómodamente.',
+            'Cierra los ojos y respira profundamente.',
+            'Lleva tu atención a los dedos de los pies y sube lentamente.',
+            'Nota cualquier tensión y déjala ir con cada exhalación.',
+            'Recorre todo tu cuerpo hasta la cabeza.',
+            'Termina respirando profundamente 3 veces.'
+        ],
+        tip: 'Excelente para hacer antes de dormir.'
+    },
+    afirmaciones: {
+        title: 'Afirmaciones Poderosas',
+        icon: 'sparkles',
+        time: '7 min',
+        duration: 420,
+        dif: 'Baja',
+        gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+        desc: 'Reprogramación mental positiva mediante afirmaciones.',
+        steps: [
+            'Siéntate en un lugar tranquilo.',
+            'Respira profundamente 3 veces.',
+            'Repite cada afirmación 6 veces en voz alta o mentalmente.',
+            'Siente las palabras en tu cuerpo.',
+            'Mantén una postura erguida y confiada.'
+        ],
+        tip: 'Hazlo frente al espejo para mayor efecto.'
+    },
+    visualizacion: {
+        title: 'Visualización Creativa',
+        icon: 'eye',
+        time: '10 min',
+        duration: 600,
+        dif: 'Media',
+        gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+        desc: 'Técnica usada por atletas olímpicos para lograr metas.',
+        steps: [
+            'Cierra los ojos y respira relajadamente.',
+            'Visualiza tu meta con el mayor detalle posible.',
+            'Siente las emociones que tendrías al lograrla.',
+            'Imagina todos los pasos que te llevaron allí.',
+            'Termina agradeciendo por haberlo logrado.'
+        ],
+        tip: 'Hazlo todas las mañanas durante 21 días.'
+    }
+};
+
+    // ==================== CRONÓMETRO ====================
+    let timerInterval = null;
+    let timeLeft = 300;
+    let isRunning = false;
+    let currentExerciseType = null;
+
+    function startTimer() {
+        if (isRunning) return;
+        isRunning = true;
+        document.getElementById('btn-start').classList.add('hidden');
+        document.getElementById('btn-pause').classList.remove('hidden');
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                Swal.fire({ icon: 'success', title: '¡Ejercicio completado!', timer: 2000, showConfirmButton: false });
+            }
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        clearInterval(timerInterval);
+        isRunning = false;
+        document.getElementById('btn-start').classList.remove('hidden');
+        document.getElementById('btn-pause').classList.add('hidden');
+    }
+
+    function resetTimer() {
+        pauseTimer();
+        const ex = ejerciciosData[currentExerciseType];
+        timeLeft = ex ? ex.duration : 300;
+        updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer-display').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
 
     function openExercise(type) {
+        currentExerciseType = type;
         const ex = ejerciciosData[type];
         if (!ex) return;
+
+        document.getElementById('floating-navbar').classList.add('hidden');
 
         document.getElementById('modal-header').style.background = ex.gradient;
         document.getElementById('modal-title').textContent = ex.title;
@@ -750,6 +882,11 @@
             </div>
         `).join('');
 
+        timeLeft = ex.duration;
+        updateTimerDisplay();
+        document.getElementById('btn-start').classList.remove('hidden');
+        document.getElementById('btn-pause').classList.add('hidden');
+
         document.getElementById('exercise-modal').classList.add('active');
         document.body.style.overflow = 'hidden';
         setTimeout(() => lucide.createIcons(), 50);
@@ -758,6 +895,8 @@
     function closeExercise() {
         document.getElementById('exercise-modal').classList.remove('active');
         document.body.style.overflow = '';
+        document.getElementById('floating-navbar').classList.remove('hidden');
+        pauseTimer();
     }
 
     document.addEventListener('keydown', (e) => {
@@ -773,63 +912,52 @@
             confirmButtonText: "Sí, salir",
             customClass: { popup: 'rounded-[2rem]' }
         }).then((result) => {
-            if (result.isConfirmed) document.getElementById('logout-form').submit();
+            if (result.isConfirmed) {
+                history.pushState(null, null, location.href);
+                window.onpopstate = function () {
+                    history.pushState(null, null, location.href);
+                    window.location.href = '/login';
+                };
+                document.getElementById('logout-form').submit();
+            }
         });
     }
 
-    // ==================== GUARDAR FRASES FAVORITAS ====================
-let fraseActual = {
-    texto: @json($fraseSeleccionada['texto']),
-    autor: @json($fraseSeleccionada['autor'])
-};
+    // Bloqueo del botón atrás
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+        history.pushState(null, null, location.href);
+    };
 
-// Guardar favorito en la base de datos
-function marcarFavorito() {
+    let fraseActual = {
+        texto: @json($fraseSeleccionada['texto']),
+        autor: @json($fraseSeleccionada['autor'])
+    };
 
-    fetch('/frases-favoritas', {
-        method: 'POST',
-
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json'
-        },
-
-        body: JSON.stringify({
-            texto: fraseActual.texto,
-            autor: fraseActual.autor
+    function marcarFavorito() {
+        fetch('/frases-favoritas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                texto: fraseActual.texto,
+                autor: fraseActual.autor
+            })
         })
-    })
-
-    .then(response => response.json())
-
-    .then(data => {
-
-        const btn = document.getElementById('btn-favorito');
-
-        btn.classList.remove('text-slate-300');
-        btn.classList.add('text-pink-500', 'bg-pink-50');
-
-        Swal.fire({
-            icon: 'success',
-            title: 'Guardado ❤️',
-            text: 'La frase fue agregada a favoritos',
-            timer: 1500,
-            showConfirmButton: false
+        .then(response => response.json())
+        .then(data => {
+            const btn = document.getElementById('btn-favorito');
+            btn.classList.remove('text-slate-300');
+            btn.classList.add('text-pink-500', 'bg-pink-50');
+            Swal.fire({ icon: 'success', title: 'Guardado ❤️', text: 'La frase fue agregada a favoritos', timer: 1500, showConfirmButton: false });
+        })
+        .catch(error => {
+            Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo guardar la frase' });
         });
-    })
-
-    .catch(error => {
-
-        console.log(error);
-
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudo guardar la frase'
-        });
-    });
-}
+    }
 </script>
 </body>
 </html>

@@ -79,6 +79,7 @@ class EmocionController extends Controller
         ["texto" => "Las virtudes a veces están bajo la superficie.", "autor" => "Vaiana"],
         ["texto" => "Recuerda, tú eres quien llena el mundo entero con su luz.", "autor" => "Blancanieves y los siete enanitos"],
         ["texto" => "No es posible que un mundo que hace tantas maravillas sea tan malo.", "autor" => "La Sirenita"]
+        
 
     ];
     

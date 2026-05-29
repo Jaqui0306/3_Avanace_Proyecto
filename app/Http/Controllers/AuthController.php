@@ -3,18 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;   // ⬅️ IMPORTANTE: agregar este use
+use Illuminate\Support\Facades\Hash;   
 use App\Models\Usuario;
 
 class AuthController extends Controller
 {
-    // Mostrar formulario de login
+
     public function showLogin()
     {
         return view('login');
     }
 
-    // Procesar login
     public function login(Request $request)
     {
         $request->validate([
@@ -24,7 +23,7 @@ class AuthController extends Controller
 
         $usuario = Usuario::where('correo', $request->correo)->first();
 
-        // ⬇️ Verificación robusta: funciona con hash Y con texto plano (migración automática)
+        // ⬇Verificación robusta: funciona con hash Y con texto plano (migración automática)
         if ($usuario && $this->verificarContrasena($request->contrasena, $usuario)) {
             
             session(['usuario_id' => $usuario->id]);
@@ -33,21 +32,16 @@ class AuthController extends Controller
         }
 
         return back()->with('error', 'Correo o contraseña incorrectos.')->withInput();
+        
     }
 
-    /**
-     * Verifica la contraseña. Si estaba en texto plano, la hashea automáticamente.
-     */
     private function verificarContrasena($contrasenaIngresada, $usuario)
     {
-        // Caso 1: la contraseña YA está hasheada (empieza con $2y$ o $2b$)
+        
         if (str_starts_with($usuario->contrasena, '$2y$') || str_starts_with($usuario->contrasena, '$2b$')) {
             return Hash::check($contrasenaIngresada, $usuario->contrasena);
         }
-
-        // Caso 2: la contraseña está en texto plano (BD vieja)
         if ($contrasenaIngresada === $usuario->contrasena) {
-            // La hasheamos automáticamente para futuros logins
             $usuario->contrasena = Hash::make($contrasenaIngresada);
             $usuario->save();
             return true;
@@ -55,8 +49,6 @@ class AuthController extends Controller
 
         return false;
     }
-
-    // Mostrar formulario de registro
     public function showRegister()
     {
         return view('register');
@@ -76,7 +68,7 @@ class AuthController extends Controller
             'nombre' => $request->nombre,
             'apellido' => $request->apellido ?? '',
             'correo' => $request->correo,
-            'contrasena' => Hash::make($request->contrasena), // ⬅️ SIEMPRE hashear
+            'contrasena' => Hash::make($request->contrasena), 
         ]);
 
         session(['usuario_id' => $usuario->id]);
@@ -92,4 +84,5 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+    
 }

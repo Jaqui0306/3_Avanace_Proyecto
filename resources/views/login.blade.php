@@ -160,7 +160,6 @@
                     <div class="animate-fadeUp5 mb-4">
                         <div class="flex justify-between items-center mb-1.5">
                             <label class="block text-[0.7rem] font-semibold text-violet-400 uppercase tracking-[0.07em]">Contraseña</label>
-                            <a href="#" class="text-xs text-violet-500 font-medium hover:underline">¿La olvidaste?</a>
                         </div>
                         <div class="relative">
                             <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-violet-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,11 +180,6 @@
                         </div>
                     </div>
 
-                    {{-- Recordar contraseña --}}
-                    <div class="animate-fadeUp6 flex items-center gap-2 mb-6 accent-violet-600">
-                        <input type="checkbox" id="remember" name="remember" class="w-4 h-4 cursor-pointer accent-violet-600">
-                        <label for="remember" class="text-sm text-violet-400 cursor-pointer select-none">Recordar este dispositivo</label>
-                    </div>
 
                     {{-- Submit --}}
                     <button type="submit" class="animate-fadeUp7 w-full flex items-center justify-center gap-2 bg-gradient-to-r from-violet-500 to-violet-700 hover:from-violet-600 hover:to-violet-800 text-white font-semibold text-sm rounded-full py-3.5 px-5 shadow-[0_8px_28px_rgba(109,40,217,0.30)] hover:shadow-[0_12px_36px_rgba(109,40,217,0.40)] hover:-translate-y-0.5 active:scale-[0.97] transition-all duration-200 cursor-pointer">
