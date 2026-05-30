@@ -10,10 +10,7 @@ class EmocionController extends Controller
 {
     public function index()
 {
-    if (!session()->has('usuario_id')) {
-        return redirect('/login');
-    }
-
+    
     $usuario = Usuario::find(session('usuario_id'));
     $emociones = Emocion::where('usuario_id', $usuario->id)->orderBy('fecha', 'desc')->get();
 

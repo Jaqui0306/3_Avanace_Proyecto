@@ -13,10 +13,6 @@ class PerfilController extends Controller
         // Obtener el ID del usuario desde la sesión
         $usuarioId = session('usuario_id');
 
-        if (!$usuarioId) {
-            return redirect('/login')->with('error', 'Debes iniciar sesión.');
-        }
-
         // Buscar al usuario en la base de datos
         $usuario = Usuario::find($usuarioId);
 

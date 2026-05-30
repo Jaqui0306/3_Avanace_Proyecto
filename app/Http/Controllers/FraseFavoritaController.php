@@ -13,9 +13,6 @@ class FraseFavoritaController extends Controller
      */
     public function index()
     {
-        if (!session()->has('usuario_id')) {
-            return redirect('/login');
-        }
 
         $usuario = Usuario::find(session('usuario_id'));
 
@@ -37,15 +34,6 @@ class FraseFavoritaController extends Controller
     public function store(Request $request)
     {
         try {
-
-            // Verificar sesión
-            if (!session()->has('usuario_id')) {
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Usuario no autenticado'
-                ], 401);
-            }
 
             // Validar datos
             $request->validate([
@@ -80,10 +68,6 @@ class FraseFavoritaController extends Controller
      */
     public function destroy($id)
     {
-        if (!session()->has('usuario_id')) {
-            return redirect('/login');
-        }
-
         $frase = FraseFavorita::where('id', $id)
             ->where('usuario_id', session('usuario_id'))
             ->firstOrFail();
