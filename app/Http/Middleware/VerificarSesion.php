@@ -13,6 +13,6 @@ class VerificarSesion
             return redirect('/login')->with('error', 'Debes iniciar sesión.');
         }
 
-        return $next($request); // ✅ Deja pasar al controlador
+        return $next($request); //
     }
 }
